@@ -17,14 +17,14 @@
             z-index: 100;
         }
 
-        .timeset , p{
+        .timeset,
+        p {
             display: none;
         }
 
         .active {
-            display:inline-block;
+            display: inline-block;
         }
-        
     </style>
 </head>
 
@@ -58,7 +58,7 @@
         //============================================
         for (var i = 0; i < 100; i++) {
             var option = document.createElement("option");
-            option.value = i
+            option.value = i;
             var optinnum = document.createTextNode(i);
             option.appendChild(optinnum);
             H_time.appendChild(option);
@@ -66,7 +66,7 @@
         // 시간범위 설정
         for (var i = 0; i < 60; i++) {
             var option = document.createElement("option");
-            option.value = i
+            option.value = i;
             var optinnum = document.createTextNode(i);
             option.appendChild(optinnum);
             M_time.appendChild(option);
@@ -75,7 +75,7 @@
         // 시간범위 설정
         for (var i = 1; i < 60; i++) {
             var option = document.createElement("option");
-            option.value = i
+            option.value = i;
             var optinnum = document.createTextNode(i);
             option.appendChild(optinnum);
             S_time.appendChild(option);
@@ -90,6 +90,7 @@
             var date = new Date(1, 1, 1, timedate[0], timedate[1], timedate[2]);
             var hour = H_time.value; var minite = date.getMinutes(); var second = date.getSeconds();
             timer.lastElementChild.innerHTML = (hour < 10 ? "0" + hour : hour) + ":" + (minite < 10 ? "0" + minite : minite) + ":" + (second < 10 ? "0" + second : second);
+
         }
         M_time.onchange = function () {
             isStop = true;
@@ -110,44 +111,35 @@
             isStop = true;
         }
 
-       function  timerB() {
-           if (!isgoing) {
-               p.classList.remove("active");
-               var a = setInterval(function () {
-                   if (!isStop) {
-                        isgoing = true;
-                        var timedate = timer.lastElementChild.innerHTML.split(':');
-                        var date = new Date(1, 1, 1, timedate[0], timedate[1], timedate[2]);
-                        if( timedate[0] <=0 &&  timedate[1] <= 0 &&  timedate[2] <=0)
-                        {
-                            p.classList.add("active");; 
-                            return;
-                        }
-                        date.setSeconds(date.getSeconds() - 1);
-                        var hour = date.getHours(); var minite = date.getMinutes(); var second = date.getSeconds();
-
-                        timer.lastElementChild.innerHTML = (hour < 10 ? "0" + hour : hour) + ":" + (minite < 10 ? "0" + minite : minite) + ":" + (second < 10 ? "0" + second : second);
-                        timerButton[2].classList.add("active");
-                        timerButton[1].classList.remove("active");
-                        
+        function timerB() {
+            timerButton[0].style.pointerEvents = "none";
+            p.classList.remove("active");
+            var a = setInterval(function () 
+            {
+                if (!isStop) {
+                    var timedate = timer.lastElementChild.innerHTML.split(':');
+                    var date = new Date(1, 1, 1, timedate[0], timedate[1], timedate[2]);
+                    if (timedate[0] <= 0 && timedate[1] <= 0 && timedate[2] <= 0) {
+                        p.classList.add("active");;
+                        return;
                     }
-                    else {
-                        timerButton[1].classList.add("active");
-                        timerButton[2].classList.remove("active");
-                        clearInterval(a);
-                        isStop = false;
-                        isgoing = false;
+                    console.log("ddd");
+                    date.setSeconds(date.getSeconds() - 1);
+                    var hour = date.getHours(); var minite = date.getMinutes(); var second = date.getSeconds();
 
-                    }
-                }, 1000);
-            }
-
-
-
-        }
-
-        function timego() {
-
+                    timer.lastElementChild.innerHTML = (hour < 10 ? "0" + hour : hour) + ":" + (minite < 10 ? "0" + minite : minite) + ":" + (second < 10 ? "0" + second : second);
+                    timerButton[2].classList.add("active");
+                    timerButton[1].classList.remove("active");
+                }
+                else {
+                    timerButton[0].style.pointerEvents = "auto";
+                    timerButton[1].classList.add("active");
+                    timerButton[2].classList.remove("active");
+                    clearInterval(a);
+                    isStop = false;
+                    isgoing = false;
+                }
+            }, 1000);
         }
 
     </script>
