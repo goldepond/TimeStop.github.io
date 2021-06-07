@@ -17,7 +17,7 @@
             z-index: 100;
         }
 
-        .timeset {
+        .timeset , p{
             display: none;
         }
 
@@ -40,8 +40,9 @@
         <select name="Timecount">
         </select>
         <button type="button" class="timeset active" onclick="timerB();">시간설정</button>
-        <button type="button" class="timeset" onclick="timerB();">시간확인</button>
-        <button type="button" class="stop">일시정지</button>
+        <button type="button" class="timeset active" onclick="timerB();">시작</button>
+        <button type="button" class="timeset stop">일시정지</button>
+        <p>끝났습니다.</p>
         <h2>00:00:00</h2>
     </div>
 
@@ -49,12 +50,13 @@
         var timerButton = document.querySelectorAll(".timeset");
         var stop = document.querySelector(".stop");
         var timer = document.querySelector(".Timer");
+        var p = document.querySelector("p");
         //============================================
         var H_time = document.getElementsByName("Timecount")[0];
         var M_time = document.getElementsByName("Timecount")[1];
         var S_time = document.getElementsByName("Timecount")[2];
         //============================================
-        for (var i = 1; i < 100; i++) {
+        for (var i = 0; i < 100; i++) {
             var option = document.createElement("option");
             option.value = i
             var optinnum = document.createTextNode(i);
@@ -62,7 +64,7 @@
             H_time.appendChild(option);
         }
         // 시간범위 설정
-        for (var i = 1; i < 60; i++) {
+        for (var i = 0; i < 60; i++) {
             var option = document.createElement("option");
             option.value = i
             var optinnum = document.createTextNode(i);
@@ -109,22 +111,29 @@
         }
 
        function  timerB() {
-            if (!isgoing) {
-                var a = setInterval(function () {
-                    if (!isStop) {
-                        timerButton[0].classList.add("active");
-                        timerButton[1].classList.remove("active");
+           if (!isgoing) {
+               p.classList.remove("active");
+               var a = setInterval(function () {
+                   if (!isStop) {
                         isgoing = true;
                         var timedate = timer.lastElementChild.innerHTML.split(':');
                         var date = new Date(1, 1, 1, timedate[0], timedate[1], timedate[2]);
+                        if( timedate[0] <=0 &&  timedate[1] <= 0 &&  timedate[2] <=0)
+                        {
+                            p.classList.add("active");; 
+                            return;
+                        }
                         date.setSeconds(date.getSeconds() - 1);
                         var hour = date.getHours(); var minite = date.getMinutes(); var second = date.getSeconds();
-                        timer.lastElementChild.innerHTML = (hour < 10 ? "0" + hour : hour) + ":" + (minite < 10 ? "0" + minite : minite) + ":" + (second < 10 ? "0" + second : second);
 
+                        timer.lastElementChild.innerHTML = (hour < 10 ? "0" + hour : hour) + ":" + (minite < 10 ? "0" + minite : minite) + ":" + (second < 10 ? "0" + second : second);
+                        timerButton[2].classList.add("active");
+                        timerButton[1].classList.remove("active");
+                        
                     }
                     else {
                         timerButton[1].classList.add("active");
-                        timerButton[0].classList.remove("active");
+                        timerButton[2].classList.remove("active");
                         clearInterval(a);
                         isStop = false;
                         isgoing = false;
