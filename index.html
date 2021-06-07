@@ -110,10 +110,9 @@
         stop.onclick = function () {
             isStop = true;
         }
-
         function timerB() {
-            timerButton[0].style.pointerEvents = "none";
             p.classList.remove("active");
+            timerButton[0].style.pointerEvents = "none";
             var a = setInterval(function () 
             {
                 if (!isStop) {
@@ -123,21 +122,24 @@
                         p.classList.add("active");;
                         return;
                     }
-                    console.log("ddd");
-                    date.setSeconds(date.getSeconds() - 1);
+                    if(!isgoing)
+                    {
+                        date.setSeconds(date.getSeconds() - 1);
+                    }
                     var hour = date.getHours(); var minite = date.getMinutes(); var second = date.getSeconds();
 
                     timer.lastElementChild.innerHTML = (hour < 10 ? "0" + hour : hour) + ":" + (minite < 10 ? "0" + minite : minite) + ":" + (second < 10 ? "0" + second : second);
                     timerButton[2].classList.add("active");
                     timerButton[1].classList.remove("active");
+                    isgoing =true;
                 }
                 else {
-                    timerButton[0].style.pointerEvents = "auto";
-                    timerButton[1].classList.add("active");
-                    timerButton[2].classList.remove("active");
                     clearInterval(a);
                     isStop = false;
                     isgoing = false;
+                    timerButton[0].style.pointerEvents = "auto";
+                    timerButton[1].classList.add("active");
+                    timerButton[2].classList.remove("active");
                 }
             }, 1000);
         }
